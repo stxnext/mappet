@@ -14,6 +14,8 @@
    :target: http://www.quantifiedcode.com/app/project/4f798b7ea0954d8790f3fe420a5fde0e
    :alt: Code issues
 
+.. image:: https://www.codacy.com/project/badge/4ea440e5fa5045acb376e6461e804179
+   :target: https://www.codacy.com/app/radoslaw-szalski/mappet
 
 
 ==========
