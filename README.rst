@@ -2,9 +2,19 @@
    :target: https://travis-ci.org/stxnext/mappet
    :alt: Travis CI
 
+.. image:: https://coveralls.io/repos/stxnext/mappet/badge.svg?branch=master&service=github
+   :target: https://coveralls.io/github/stxnext/mappet?branch=master
+   :alt: Coveralls
+
 .. image:: https://codeclimate.com/github/stxnext/mappet/badges/gpa.svg
    :target: https://codeclimate.com/github/stxnext/mappet
    :alt: Code Climate
+
+.. image:: http://www.quantifiedcode.com/api/v1/project/4f798b7ea0954d8790f3fe420a5fde0e/badge.svg
+   :target: http://www.quantifiedcode.com/app/project/4f798b7ea0954d8790f3fe420a5fde0e
+   :alt: Code issues
+
+
 
 ==========
 ``mappet``
