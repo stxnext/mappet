@@ -1,3 +1,11 @@
+.. image:: https://travis-ci.org/stxnext/mappet.svg
+   :target: https://travis-ci.org/stxnext/mappet
+   :alt: Travis CI
+
+.. image:: https://codeclimate.com/github/stxnext/mappet/badges/gpa.svg
+   :target: https://codeclimate.com/github/stxnext/mappet
+   :alt: Code Climate
+
 ==========
 ``mappet``
 ==========
