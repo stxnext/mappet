@@ -1,0 +1,7 @@
+List of people who made this library happen (alphabetic order):
+
+Marcin Raczyński
+Marek Bleschke
+Marek Pilarczyk
+Radosław Szalski - main contributor and project maintainer
+Łukasz Świerszcz - idea and initial work
