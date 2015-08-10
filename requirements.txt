@@ -1,5 +1,7 @@
 lxml
 python-dateutil
 pytest
+pytest-cov
+python-coveralls
 mock
 tox
