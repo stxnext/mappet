@@ -1,0 +1,5 @@
+lxml
+python-dateutil
+pytest
+mock
+tox
