@@ -61,12 +61,12 @@ setup(
         'Natural Language :: English',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Lesser General Public License v3(LGPLv3)',
+        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Text Processing :: Markup:: XML',
+        'Topic :: Text Processing :: Markup :: XML',
         'Topic :: Utilities',
-        ],
+    ],
     keywords='xml parsing mapping',
     extras_require={
         'testing': [
