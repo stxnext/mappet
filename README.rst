@@ -122,8 +122,8 @@ To get a string representation use ``get()``.
 >>> m.reply.cars.car[0].manufacturer.get()
 'BMW'
 
-Metoda ta posiada dwa parametry *default* oraz *callback*. Parametr *default* zwracany jest gdy wartość węzła jest pusta,
-natomiast *callback* jest funkcją która ma być wykonana na zwracanej wartości.
+``get()`` has two parameters, *default* and *callback*. The first one is returned when then node's value is empty, the
+second is a function to be called upon the returned value.
 
 >>> m.reply.cars.car[0].ccm.get(callback=int)
 3000
