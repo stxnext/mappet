@@ -16,6 +16,11 @@
 
 .. image:: https://www.codacy.com/project/badge/4ea440e5fa5045acb376e6461e804179
    :target: https://www.codacy.com/app/radoslaw-szalski/mappet
+   :alt: Codacy
+
+.. image:: https://readthedocs.org/projects/mappet/badge/?version=latest
+   :target: https://readthedocs.org/projects/mappet/?badge=latest
+   :alt: Documentation Status
 
 
 ==========
