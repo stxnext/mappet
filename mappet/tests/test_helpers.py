@@ -236,12 +236,11 @@ class TestTreeHelpers(object):
         }
 
     def test_dict_to_etree(self):
-        u"""Tests the conversion of dict to lxml.etree structure."""
+        u"""Tests the conversion of dict to ``lxml.etree`` structure."""
         with pytest.raises(AttributeError) as exc:
             helpers.dict_to_etree(['node'], self.root)
-            helpers.dict_to_etree(('node'), self.root)
 
-        assert 'neither dict nor basestring' in str(exc.value)
+        assert 'Argument is neither dict nor basestring' in str(exc.value)
 
         helpers.dict_to_etree({'single_node': None}, self.root)
         # A dict with one empty key should be converted to an etree element with one child.
