@@ -66,6 +66,7 @@ class TestHelpers(object):
         assert 'Empty value not allowed' in str(exec_empty.value)
 
         # ISO time returns a correct ``datetime.time`` object.
+        assert helpers.to_time('13') == datetime.time(13)
         assert helpers.to_time('13:45') == datetime.time(13, 45)
         assert helpers.to_time('13:45:46L') == datetime.time(13, 45, 46)
 
