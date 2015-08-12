@@ -206,23 +206,23 @@ def dict_to_etree(d, root):
     :returns: Textual representation of the XML tree
     :rtype: str
     """
-    def _to_etree(d, root):
+    def _to_etree(d, node):
         if d is None or len(d) == 0:
             pass
         elif isinstance(d, basestring):
-            root.text = d
+            node.text = d
         elif isinstance(d, dict):
             for k, v in d.items():
                 assert isinstance(k, basestring)
                 if k.startswith('#'):
                     assert k == '#text' and isinstance(v, basestring)
-                    root.text = v
+                    node.text = v
                 elif k.startswith('@'):
                     assert isinstance(v, basestring)
-                    root.set(k[1:], v)
+                    node.set(k[1:], v)
                 elif isinstance(v, list):
                     # No matter the child count, their parent will be the same.
-                    sub_elem = etree.SubElement(root, k)
+                    sub_elem = etree.SubElement(node, k)
 
                     for child_num, e in enumerate(v):
                         if e is None:
@@ -235,7 +235,7 @@ def dict_to_etree(d, root):
                             # in its parent, thus, recreating tags we have to go
                             # up one level.
                             # <node><child/></child></node> <=> {'node': 'child': [None, None]}
-                            _to_etree(root, k)
+                            _to_etree(node, k)
                         else:
                             # If this isn't first child and it's a complex
                             # value (dict), we need to check if it's value
@@ -243,13 +243,13 @@ def dict_to_etree(d, root):
                             if child_num != 0 and not (isinstance(e, dict) and not all(e.values())):
                                 # At least one child was None, we have to create
                                 # a new parent-node, which will not be empty.
-                                sub_elem = etree.SubElement(root, k)
+                                sub_elem = etree.SubElement(node, k)
                             _to_etree(e, sub_elem)
                 else:
-                    _to_etree(v, etree.SubElement(root, k))
+                    _to_etree(v, etree.SubElement(node, k))
         elif etree.iselement(d):
             # Supports the case, when we got an empty child and want to recreate it.
-            etree.SubElement(d, root)
+            etree.SubElement(d, node)
         else:
             raise AttributeError('Argument is neither dict nor basestring.')
 
