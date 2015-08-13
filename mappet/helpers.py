@@ -199,7 +199,7 @@ def dict_to_etree(d, root):
     u"""Converts a dict to lxml.etree object.
 
     >>> dict_to_etree({'root': {'#text': 'node_text', '@attr': 'val'}}, etree.Element('root'))
-    '<root><root attr="val">node_text</root></root>'
+    <Element root at 0xb8280ec>
 
     :param dict d: dict representing the XML tree
     :param etree.Element root: XML node which will be assigned the resulting tree
@@ -254,4 +254,4 @@ def dict_to_etree(d, root):
             raise AttributeError('Argument is neither dict nor basestring.')
 
     _to_etree(d, root)
-    return etree.tostring(root)
+    return root

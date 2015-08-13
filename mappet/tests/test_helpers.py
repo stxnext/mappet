@@ -325,7 +325,9 @@ class TestTreeHelpers(object):
                 None,
             ]
         }
-        assert helpers.dict_to_etree(xml_dict, self.root) == '<root><node1/><node1/></root>'
+        etree_from_dict = helpers.dict_to_etree(xml_dict, self.root)
+        assert etree.iselement(etree_from_dict)
+        assert etree.tostring(etree_from_dict) == '<root><node1/><node1/></root>'
 
     def test_dict_to_etree_lists_with_mixed_children(self):
         u"""Tests the conversion of dicts with different children to an lxml tree."""
@@ -338,6 +340,6 @@ class TestTreeHelpers(object):
                 }
             ]
         }
-        assert helpers.dict_to_etree(xml_dict, self.root) == '<root><node1/><node1/><node1>text_node</node1></root>'
-
-
+        etree_from_dict = helpers.dict_to_etree(xml_dict, self.root)
+        assert etree.iselement(etree_from_dict)
+        assert etree.tostring(etree_from_dict) == '<root><node1/><node1/><node1>text_node</node1></root>'
