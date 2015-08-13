@@ -36,7 +36,7 @@ A well known ``lxml`` module has been used under the hood, mainly due to XML par
 Mappet accepts a string with valid XML, an ``lxml.etree._Element`` object or a dict
 representing the XML tree.
 
->>> from mappet import mappet
+>>> import mappet
 >>> f = open('example.xml', 'r')
 >>> m = mappet.Mappet(f.read())
 
