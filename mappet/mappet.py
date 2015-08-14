@@ -135,7 +135,6 @@ class Literal(Node):
         u"""Compares two leafs.
 
         Assumes they are equal if the same are their:
-        Obiekty uznajemy za równe, gdy takie same są:
             * tagname,
             * parent,
             * text,

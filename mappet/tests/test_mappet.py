@@ -87,13 +87,11 @@ class TestNode(object):
 
         # A change to an existing attribute should be successful.
         assert self.node.getattr('val1') == '1lav'
-        # Nowy atrybut powinien być dodany.
         # A new attribute should be added, if id doesn't exist.
         assert self.node.getattr('new-attr') == 'new-val'
 
 
 class TestLiteral(object):
-
     u"""Tests for the class representing a XML leaf."""
 
     def setup(self):
