@@ -94,73 +94,68 @@ class TestNode(object):
 class TestLiteral(object):
     u"""Tests for the class representing a XML leaf."""
 
-    def setup(self):
+    @pytest.fixture
+    def literal(self):
+        u"""Returns a simple Literal."""
         xml = etree.Element('root')
-        xml.set('attr1', 'val1')
-        etree.SubElement(xml, 'node1')
-        xml[0].text = 'node-text'
-        self.xml = xml
-        self.leaf = mappet.Literal(xml[0])
+        literal_node = etree.SubElement(xml, 'literal_node')
+        literal_node.text = 'literal-text'
+        return mappet.Literal(literal_node)
 
-    def test__str__(self):
+    def test__str__(self, literal):
         u"""Tests for representing a leaf as a string."""
         # str() returns leaf's content as string.
-        assert str(self.leaf) == 'node-text'
+        assert str(literal) == 'literal-text'
 
-    def test__repr__(self):
+    def test__repr__(self, literal):
         u"""Tests for representing a leaf using __repr__."""
         # __repr__ returns a contents of a leaf.
-        assert str(self.leaf) == repr(self.leaf)
+        assert str(literal) == repr(literal)
 
-    def test__unicode__(self):
+    def test__unicode__(self, literal):
         u"""Tests for representing leaf's content as Unicode."""
         # unicode() returns contents of the leaf, just like str() does.
-        assert unicode(self.leaf) == 'node-text'
+        assert unicode(literal) == 'literal-text'
 
-    def test__init__(self):
-        u"""Tests for representing a leaf as int."""
-        self.leaf = 5.2
-        assert int(self.leaf) == 5
-        self.leaf = 2
-        assert int(self.leaf) == 2
+    def test__int__(self, literal):
+        u"""Tests conversion to int."""
+        literal._xml.text = '1'
+        assert int(literal) == 1
 
-    def test__float__(self):
-        u"""Tests for representing a leaf as float."""
-        self.leaf = 5.2
-        assert float(self.leaf) == 5.2
-        self.leaf = 2
-        assert float(self.leaf) == 2.0
+    def test__float__(self, literal):
+        u"""Tests conversion to float."""
+        literal._xml.text = '3.14'
+        assert float(literal) == 3.14
 
-    def test__nonzero__(self):
+    def test__nonzero__(self, literal):
         u"""Tests for representing a leaf as boolean."""
         # A leaf, which has any contents, should be truthy.
-        assert bool(self.leaf) is True
+        assert bool(literal) is True
 
         # A leaf, which has no content, should be falsy.
-        self.leaf = ''
-        assert bool(self.leaf) is False
+        literal._xml.text = ''
+        assert bool(literal) is False
 
-    def test__eq__(self):
+    def test__eq__(self, literal):
         u"""Tests for equality of leafs."""
-        assert mappet.Literal(self.xml[0]) == self.leaf
+        assert mappet.Literal(literal._xml) == literal
 
-    def test__hash__(self):
+    def test__hash__(self, literal):
         u"""Tests for hashing of leafs."""
-        literal = mappet.Literal(self.xml[0])
         # A leaf's hash is a hash of XML structure it represents.
         assert hash(literal) == hash(literal._xml)
 
-    def test__len__(self):
+    def test__len__(self, literal):
         u"""Tests for leaf's text length"""
         # Leaf's length is its content's length.
-        assert len(self.leaf) == 9
-        self.leaf = ''
-        assert len(self.leaf) == 0
+        assert len(literal) == 12
+        literal._xml.text = ''
+        assert len(literal) == 0
 
-    def test__dir__(self):
+    def test__dir__(self, literal):
         u"""Tests for listing of conversion methods available for leafs."""
         # dir() should return all the conversion methods (to_*) for leaves.
-        assert dir(self.leaf) == [
+        assert dir(literal) == [
             'to_bool',
             'to_date',
             'to_datetime',
@@ -170,25 +165,25 @@ class TestLiteral(object):
             'to_time',
         ]
 
-    def test__getattr__(self):
+    def test__getattr__(self, literal):
         u"""Tests for conversion methods."""
-        assert self.leaf.to_str() == 'node-text'
+        assert literal.to_str() == 'literal-text'
 
-    def test_wrong__getattr__(self):
+    def test_wrong__getattr__(self, literal):
         u"""Tests for calling non-existing conversion methods."""
         # If the method does not start with "to_", throws an exception.
         with pytest.raises(AttributeError):
-            assert self.leaf.my_helper() == 'node-text'
+            assert literal.my_helper() == 'node-text'
 
         # If a method starts with "to_", but does not exist in heleprs module,
         # throws an exception.
         with pytest.raises(AttributeError):
-            assert self.leaf.to_unicode() == 'node-text'
+            assert literal.to_unicode() == 'node-text'
 
-    def test__setitem__(self):
+    def test__setitem__(self, literal):
         u"""Tests for setting an attribute value."""
-        self.leaf['@attr'] = 'val'
-        assert self.leaf['@attr'] == 'val'
+        literal['@attr'] = 'val'
+        assert literal['@attr'] == 'val'
 
     def test_set_literal_text_explicitly(self):
         u"""Tests for assignment and extraction of leaf's text using '#text' key."""
@@ -209,20 +204,20 @@ class TestLiteral(object):
         assert m.auth.user[1]['#text'] == 'test'
         assert m.auth.user[1].get() == 'test'
 
-    def test__add__and__radd__(self):
+    def test__add__and__radd__(self, literal):
         u"""Tests for concatenation of leaves."""
         # A left join should return a full string.
-        assert self.leaf + 'sth' == 'node-textsth'
+        assert literal + 'sth' == 'literal-textsth'
 
         # A right join should also return a full string.
-        assert 'sth' + self.leaf == 'sthnode-text'
+        assert 'sth' + literal == 'sthliteral-text'
 
-    def test_get(self):
+    def test_get(self, literal):
         u"""Tests for extraction of leaves' values."""
         # A simple get() call should return the leaf's contents.
-        assert self.leaf.get() == 'node-text'
+        assert literal.get() == 'literal-text'
         # If a callback was specified, it should have been used on the contents.
-        assert self.leaf.get(callback=str.upper) == 'NODE-TEXT'
+        assert literal.get(callback=str.upper) == 'LITERAL-TEXT'
 
     def test_get__simple_node_and_node_with_attrs__should_return_same_tag_text(self):
         u"""Tests for value extraction from node with and without attributes.
@@ -248,18 +243,18 @@ class TestLiteral(object):
         # However, those nodes are not identical.
         assert m_attr.data.type != m.data.type
 
-    def test_get_empty_text(self):
+    def test_get_empty_text(self, literal):
         u"""Tests for returning of an empty leaf's contents."""
-        leaf = mappet.Literal(etree.Element('root'))
+        # If leaf's content is not empty, ignore ``default`` argument.
+        assert literal.get(default='alternative') == 'literal-text'
 
         # If a leaf does not have any text, a None should be returned.
-        assert leaf.get() is None
+        literal._xml.text = ''
+        assert literal.get() is None
 
         # If leaf's text is empty, return the contents for ``default`` argument.
-        assert leaf.get(default='alternative') == 'alternative'
+        assert literal.get(default='alternative') == 'alternative'
 
-        # If leaf's content is not empty, ignore ``default`` argument.
-        assert self.leaf.get(default='alternative') == 'node-text'
 
 
 class TestMappet(object):

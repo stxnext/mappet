@@ -121,11 +121,11 @@ class Literal(Node):
 
     def __int__(self):
         u"""Represents the literal as an int."""
-        return self.as_int()
+        return self.to_int()
 
     def __float__(self):
         u"""Represents the literal as an float."""
-        return self.as_float()
+        return self.to_float()
 
     def __nonzero__(self):
         u"""Represents the literal as an bool."""
