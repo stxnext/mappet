@@ -208,7 +208,7 @@ def dict_to_etree(d, root):
     """
     def _to_etree(d, node):
         if d is None or len(d) == 0:
-            pass
+            return
         elif isinstance(d, basestring):
             node.text = d
         elif isinstance(d, dict):
