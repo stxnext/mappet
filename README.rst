@@ -2,9 +2,9 @@
    :target: https://travis-ci.org/stxnext/mappet
    :alt: Travis CI
 
-.. image:: https://coveralls.io/repos/stxnext/mappet/badge.svg?branch=master&service=github
-   :target: https://coveralls.io/github/stxnext/mappet?branch=master
-   :alt: Coveralls
+.. image:: http://codecov.io/github/stxnext/mappet/coverage.svg?branch=master
+   :target: http://codecov.io/github/stxnext/mappet?branch=master
+   :alt: Codecov
 
 .. image:: https://codeclimate.com/github/stxnext/mappet/badges/gpa.svg
    :target: https://codeclimate.com/github/stxnext/mappet
