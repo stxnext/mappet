@@ -456,9 +456,7 @@ class Mappet(Node):
         my_object = self
         for attr in attrs:
             try:
-                if isinstance(my_object, dict):
-                    my_object_next = my_object[attr]
-                elif isinstance(my_object, (list, tuple)) and re.match('^\-?\d+$', attr):
+                if isinstance(my_object, (list, tuple)) and re.match('^\-?\d+$', attr):
                     my_object_next = my_object[int(attr)]
                 else:
                     my_object_next = getattr(my_object, attr)
