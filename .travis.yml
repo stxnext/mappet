@@ -1,7 +1,9 @@
 language: python
 python:
   - "2.7"
+before_install:
+  - pip install codecov
 install: "pip install -r requirements.txt"
 script: py.test -v --cov mappet --cov-report term-missing
 after_success:
-  - coveralls
+  - codecov
