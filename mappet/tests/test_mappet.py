@@ -91,6 +91,40 @@ class TestNode(object):
         assert self.node.getattr('new-attr') == 'new-val'
 
 
+class TestNoneNode(object):
+    @pytest.fixture(scope='class')
+    def none_node(self):
+        return mappet.NoneNode
+
+    def test__repr__(self, none_node):
+        assert repr(none_node) == 'NoneNode'
+
+    def test__nonzero__(self, none_node):
+        assert bool(none_node) is False
+
+    def test__dir__(self, none_node):
+        assert dir(none_node) == [
+            'to_bool',
+            'to_date',
+            'to_datetime',
+            'to_dict',
+            'to_float',
+            'to_int',
+            'to_str',
+            'to_time',
+        ]
+
+    def test__getattr__given_existing_attr__should_return_none(self, none_node):
+        assert none_node.to_bool() is None
+        assert none_node.to_datetime() is None
+        assert none_node.to_float() is None
+        assert none_node.to_time() is None
+
+    def test__getattr__given_nonexisting_attr__should_raise(self, none_node):
+        with pytest.raises(AttributeError):
+            none_node.to_infinity_and_beyond
+
+
 class TestLiteral(object):
     u"""Tests for the class representing a XML leaf."""
 
@@ -254,7 +288,6 @@ class TestLiteral(object):
 
         # If leaf's text is empty, return the contents for ``default`` argument.
         assert literal.get(default='alternative') == 'alternative'
-
 
 
 class TestMappet(object):
