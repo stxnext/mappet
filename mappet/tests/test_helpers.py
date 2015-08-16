@@ -224,6 +224,7 @@ class TestTreeHelpers(object):
             }
         }
 
+
         # A node with both attributes and text should have text assigned to the
         # '#text' key in the dict.
         tag = etree.Element('root')
@@ -233,6 +234,24 @@ class TestTreeHelpers(object):
             'root': {
                 '@attr1': 'value1',
                 '#text': 'some_text',
+            }
+        }
+
+    def test__dict_to_etree__given_node_with_whitespace__should_preserve_it(self):
+        tag = etree.Element('root')
+        tag.text = ' '
+
+        assert helpers.etree_to_dict(tag) == {
+            'root': ' ',
+        }
+        tag = etree.Element('root')
+        tag.set('attr1', 'value1')
+        tag.text = ' '
+
+        assert helpers.etree_to_dict(tag) == {
+            'root': {
+                '@attr1': 'value1',
+                '#text': ' ',
             }
         }
 

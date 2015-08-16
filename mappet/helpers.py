@@ -186,12 +186,10 @@ def etree_to_dict(t):
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
 
     if t.text:
-        text = t.text.strip()
         if children or t.attrib:
-            if text:
-                d[t.tag]['#text'] = text
+            d[t.tag]['#text'] = t.text
         else:
-            d[t.tag] = text
+            d[t.tag] = t.text
     return d
 
 
