@@ -44,51 +44,51 @@ As an example, an XML document of the following structure has been used:
 
 .. code-block:: xml
 
-<?xml version='1.0' encoding='iso-8859-2'?>
-<a-message>
-    <head>
-        <id seq="20" tstamp="2015-07-13T10:55:25+02:00"/>
-        <initiator>Mr Sender</initiator>
-        <date>2015-07-13T10:56:05.597420+02:00</date>
-        <type>reply-type</type>
-    </head>
-    <auth>
-        <user first-name="Name" last-name="LastName">id</user>
-    </auth>
-    <status>
-        <result>OK</result>
-    </status>
-    <reply>
-        <cars>
-            <Car>
-                <id>12345</id>
-                <Manufacturer>BMW</Manufacturer>
-                <Model_Name>X6</Model_Name>
-                <Body>SUV</Body>
-                <Fuel>Diesel</Fuel>
-                <Doors>5</Doors>
-                <ccm>3000</ccm>
-                <HP>256</HP>
-                <TransType>Automatic</TransType>
-                <seats>5</seats>
-                <weight>3690</weight>
-            </Car>
-            <Car>
-                <id>54321</id>
-                <Manufacturer>BMW</Manufacturer>
-                <Model_Name>X1</Model_Name>
-                <Body>SUV</Body>
-                <Fuel>Diesel</Fuel>
-                <Doors>5</Doors>
-                <ccm>3000</ccm>
-                <HP>198</HP>
-                <TransType>Automatic</TransType>
-                <seats>5</seats>
-                <weight>2890</weight>
-            </Car>
-        </cars>
-    </reply>
-</a-message>
+    <?xml version='1.0' encoding='iso-8859-2'?>
+    <a-message>
+        <head>
+            <id seq="20" tstamp="2015-07-13T10:55:25+02:00"/>
+            <initiator>Mr Sender</initiator>
+            <date>2015-07-13T10:56:05.597420+02:00</date>
+            <type>reply-type</type>
+        </head>
+        <auth>
+            <user first-name="Name" last-name="LastName">id</user>
+        </auth>
+        <status>
+            <result>OK</result>
+        </status>
+        <reply>
+            <cars>
+                <Car>
+                    <id>12345</id>
+                    <Manufacturer>BMW</Manufacturer>
+                    <Model_Name>X6</Model_Name>
+                    <Body>SUV</Body>
+                    <Fuel>Diesel</Fuel>
+                    <Doors>5</Doors>
+                    <ccm>3000</ccm>
+                    <HP>256</HP>
+                    <TransType>Automatic</TransType>
+                    <seats>5</seats>
+                    <weight>3690</weight>
+                </Car>
+                <Car>
+                    <id>54321</id>
+                    <Manufacturer>BMW</Manufacturer>
+                    <Model_Name>X1</Model_Name>
+                    <Body>SUV</Body>
+                    <Fuel>Diesel</Fuel>
+                    <Doors>5</Doors>
+                    <ccm>3000</ccm>
+                    <HP>198</HP>
+                    <TransType>Automatic</TransType>
+                    <seats>5</seats>
+                    <weight>2890</weight>
+                </Car>
+            </cars>
+        </reply>
+    </a-message>
 
 
 Conventions

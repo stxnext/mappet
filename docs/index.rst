@@ -8,6 +8,7 @@ Contents:
 
    mappet
 
+.. include:: ../README.rst
 
 
 Indices and tables
