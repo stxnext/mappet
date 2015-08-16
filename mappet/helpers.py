@@ -130,7 +130,7 @@ def from_datetime(value):
         raise Exception("Unexpected type %s of value %s (expected datetime.datetime)" % (type(value), repr(value)))
 
     if value.tzinfo is None:
-        value = value.replace(tzinfo=dateutil.tz.tzlocal())
+        value = value.replace(tzinfo=dateutil.tz.tzlocal()) # pragma: nocover
     return value.replace(microsecond=0).isoformat()
 
 
