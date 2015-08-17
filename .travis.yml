@@ -4,6 +4,8 @@ python:
 before_install:
   - pip install codecov
 install: "pip install -r requirements.txt"
-script: py.test -v --cov mappet --cov-report term-missing --cov-config mappet/.coveragerc
+script:
+  - py.test -v --cov mappet --cov-report term-missing --cov-config mappet/.coveragerc
+  - python setup.py check --restructuredtext --metadata --strict
 after_success:
   - codecov
