@@ -255,8 +255,7 @@ class Mappet(Node):
         elif isinstance(xml, basestring):
             self._xml = etree.fromstring(xml)
         elif isinstance(xml, dict):
-            xml_str = helpers.dict_to_etree(xml, etree.Element('root'))
-            self._xml = etree.fromstring(xml_str)
+            self._xml = helpers.dict_to_etree(xml, etree.Element('root'))
         else:
             raise AttributeError('Specified data cannot be used to construct a Mappet object.')
 
