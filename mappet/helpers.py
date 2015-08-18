@@ -183,9 +183,9 @@ def etree_to_dict(t, trim=True):
         d = {t.tag: {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
     if t.attrib:
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
+    if trim and t.text:
+        t.text = t.text.strip()
     if t.text:
-        if trim:
-            t.text = t.text.strip()
         if children or t.attrib:
             d[t.tag]['#text'] = t.text
         else:
