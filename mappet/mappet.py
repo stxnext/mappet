@@ -565,7 +565,6 @@ class Mappet(Node):
 
     def to_dict(self, trim=True):
         u"""Converts the lxml object to a dict."""
-        print(trim)
         _, value = helpers.etree_to_dict(self._xml, trim=trim).popitem()
         return value
 

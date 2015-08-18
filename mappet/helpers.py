@@ -173,7 +173,6 @@ def etree_to_dict(t, trim=True):
     :returns d: a dict representing the lxml tree ``t``
     :rtype: dict
     """
-    print(trim)
     d = {t.tag: {} if t.attrib else None}
     children = list(t)
     if children:
@@ -188,10 +187,7 @@ def etree_to_dict(t, trim=True):
         if trim:
             t.text = t.text.strip()
         if children or t.attrib:
-            if trim and t.text == '':
-                pass
-            else:
-                d[t.tag]['#text'] = t.text
+            d[t.tag]['#text'] = t.text
         else:
             d[t.tag] = t.text
     return d
