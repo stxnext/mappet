@@ -307,6 +307,9 @@ class TestMappet(object):
         m = mappet.Mappet(xml_dict)
         assert m.to_dict() == xml_dict
 
+        assert mappet.Mappet({'a': {'#text': 'list_elem_1', '@attr1': 'val1'}}).to_str() == '<a attr1="val1">list_elem_1</a>'
+        assert mappet.Mappet({'#text': 'list_elem_1', '@attr1': 'val1'}).to_str() == '<root attr1="val1">list_elem_1</root>'
+
     def test__nonzero__(self):
         u"""Tests for bool() function called on mappet objects."""
         assert bool(self.m)
