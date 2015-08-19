@@ -252,8 +252,9 @@ class Mappet(Node):
     def __init__(self, xml):
         u"""Creates the mappet object from either lxml object, a string or a dict.
 
-        If you pass dict argument with no master key then root element will be created with
-        default name.
+        If you pass a dict without root element, one will be created for you with
+        'root' as tag name.
+
         >>> Mappet({'a': {'#text': 'list_elem_1', '@attr1': 'val1'}}).to_str()
         '<a attr1="val1">list_elem_1</a>'
         >>> Mappet({'#text': 'list_elem_1', '@attr1': 'val1'}).to_str()
