@@ -7,6 +7,7 @@ u"""Helper functions.
 """
 from collections import defaultdict
 import datetime
+from functools import partial
 
 from lxml import etree
 import dateutil.parser
@@ -162,7 +163,7 @@ def normalize_tag(tag):
     return tag.lower().replace('-', '_')
 
 
-def etree_to_dict(t):
+def etree_to_dict(t, **kw):
     u"""Converts an lxml.etree object to Python dict.
 
     >>> etree_to_dict(etree.Element('root'))
@@ -177,16 +178,20 @@ def etree_to_dict(t):
 
     if children:
         dd = defaultdict(list)
-        for dc in map(etree_to_dict, children):
+        for dc in map(partial(etree_to_dict, **kw), children):
             for k, v in dc.iteritems():
-                dd[k].append(v)
+                if k is not etree.Comment:
+                    dd[k].append(v)
         d = {t.tag: {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
-
     if t.attrib:
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
-
     if t.text:
-        if children or t.attrib:
+        if t.tag is etree.Comment:
+            if kw.get('without_comment'):
+                pass
+            else:
+                d['#comments'] = t.text
+        elif children or t.attrib:
             d[t.tag]['#text'] = t.text
         else:
             d[t.tag] = t.text

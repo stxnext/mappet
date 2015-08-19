@@ -458,6 +458,54 @@ class TestMappet(object):
         assert self.m.to_str() == xml_str
         assert self.m.to_str(pretty_print=True) == pretty_xml_str
 
+    def test_to_str_wtihout_comments(self):
+        u"""Tests for method formatting a Mappet tree as a string without comment."""
+        comment_node = etree.Comment('a_comment_node')
+        self.xml.insert(0, comment_node)
+        # because 'without_comments' uses c14n process the output is different
+        xml_str = '<root attr1="val1" attr2="val2"><node1><subnode1></subnode1><subnode1></subnode1><subnode2>subnode2_text</subnode2></node1><node2></node2><node3></node3><node_list><subnode attr1="val1">subnode_text</subnode><subnode></subnode><subnode></subnode></node_list></root>'
+        pretty_xml_str = '''<root attr1="val1" attr2="val2">
+  <node1>
+    <subnode1/>
+    <subnode1/>
+    <subnode2>subnode2_text</subnode2>
+  </node1>
+  <node2/>
+  <node3/>
+  <node_list>
+    <subnode attr1="val1">subnode_text</subnode>
+    <subnode/>
+    <subnode/>
+  </node_list>
+</root>
+'''
+        assert self.m.to_str(without_comments=True) == xml_str
+        # c14n does not support pretty_print
+
+    def test_to_str_wtih_comments(self):
+        u"""Tests for method formatting a Mappet tree as a string with comment."""
+        comment_node = etree.Comment('a_comment_node')
+        self.xml.insert(0, comment_node)
+        xml_str = '<root attr1="val1" attr2="val2"><!--a_comment_node--><node1><subnode1/><subnode1/><subnode2>subnode2_text</subnode2></node1><node2/><node3/><node_list><subnode attr1="val1">subnode_text</subnode><subnode/><subnode/></node_list></root>'
+        pretty_xml_str = '''<root attr1="val1" attr2="val2">
+  <!--a_comment_node-->
+  <node1>
+    <subnode1/>
+    <subnode1/>
+    <subnode2>subnode2_text</subnode2>
+  </node1>
+  <node2/>
+  <node3/>
+  <node_list>
+    <subnode attr1="val1">subnode_text</subnode>
+    <subnode/>
+    <subnode/>
+  </node_list>
+</root>
+'''
+        assert self.m.to_str() == xml_str
+        assert self.m.to_str(pretty_print=True) == pretty_xml_str
+
     def test_has_children(self):
         u"""Tests for checking if a node has any children."""
         assert self.m.has_children()

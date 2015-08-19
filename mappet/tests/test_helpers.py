@@ -237,6 +237,19 @@ class TestTreeHelpers(object):
             }
         }
 
+    def test_etree_to_dict_comments_handling(self):
+        u"""Tests lxml.etree tree conversion to Python dict with comment handling."""
+        comment_node = etree.Comment('a_comment_node')
+        self.root.insert(0, comment_node)
+        assert helpers.etree_to_dict(self.root) == {
+            'root': {
+                '#comments': 'a_comment_node'
+            }
+        }
+        assert helpers.etree_to_dict(self.root, without_comment=True) == {
+            'root': {}
+        }
+
     def test__dict_to_etree__given_node_with_whitespace__should_preserve_it(self):
         tag = etree.Element('root')
         tag.text = ' '
