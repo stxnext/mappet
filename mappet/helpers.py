@@ -180,6 +180,7 @@ def etree_to_dict(t, **kw):
         dd = defaultdict(list)
         for dc in map(partial(etree_to_dict, **kw), children):
             for k, v in dc.iteritems():
+                # do not add Comment instance to the key
                 if k is not etree.Comment:
                     dd[k].append(v)
         d = {t.tag: {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
@@ -188,8 +189,10 @@ def etree_to_dict(t, **kw):
     if t.text:
         if t.tag is etree.Comment:
             if kw.get('without_comment'):
+                # skips adding a comment node
                 pass
             else:
+                # adds a comments node
                 d['#comments'] = t.text
         elif children or t.attrib:
             d[t.tag]['#text'] = t.text

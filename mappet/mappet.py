@@ -366,7 +366,7 @@ class Mappet(Node):
 
         Remaining arguments are passed to etree.tostring as is.
 
-        kwarg without_comments: bool
+        kwarg without_comments: bool does not work with pretty print
 
         :param bool pretty_print: whether to format the output
         :param str encoding: which encoding to use (ASCII by default)
