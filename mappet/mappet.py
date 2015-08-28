@@ -102,6 +102,11 @@ class Node(object):
         else:
             self._xml.set(key, str(value))
 
+    @property
+    def tag(self):
+        u"""Returns node's tag name."""
+        return self._xml.tag
+
 
 class Literal(Node):
     u"""Represents a leaf in an XML tree."""
