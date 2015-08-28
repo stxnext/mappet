@@ -8,7 +8,6 @@ u"""Module for dynamic mapping of XML trees to Python objects.
 
 from copy import deepcopy
 from lxml import etree
-
 import re
 
 import helpers
@@ -581,3 +580,61 @@ class Mappet(Node):
                     self._aliases[helpers.normalize_tag(child.tag)] = child.tag
 
         return self._aliases
+
+    def xpath(
+            self,
+            path,
+            namespaces=None,
+            regexp=False,
+            smart_strings=True,
+            single_use=False,
+    ):
+        u"""Executes XPath query on the lxml object and returns a correct object.
+
+        :path - string
+        :namespaces - string (re, exslt) or dict
+        :regexp - bool
+        :smart_strings - bool
+        :single_use - bool
+
+        Namespace/regexp example:
+        >>> root = mappet.Mappet("<root><a>aB</a><b>aBc</b></root>")
+        >>> root.XPath(
+            "//*[re:test(., '^abc$', 'i')]",
+            namespaces='exslt',
+            regexp=True,
+        )
+        """
+        if (
+            (namespaces and namespaces in ['exslt', 're']) or
+            (regexp and not namespaces)):
+            namespaces = {'re': "http://exslt.org/regular-expressions"}
+        if single_use:
+            node = self._xml.xpath(path)
+        else:
+            xpe = self.xpath_evaluator(
+                namespaces=namespaces,
+                regexp=regexp,
+                smart_strings=smart_strings
+            )
+            node = xpe(path)
+
+        if len(node) == 1:
+            node = node[0]
+            if len(node):
+                return self.__class__(node)
+            else:
+                return Literal(node)
+        return node
+
+    def xpath_evaluator(self, namespaces=None, regexp=False, smart_strings=True):
+        u'''Creates an XPathEvaluator instance for an ElementTree or an Element.
+
+        :return XPatchEvaluator instance
+        '''
+        return etree.XPathEvaluator(
+            self._xml,
+            namespaces=namespaces,
+            regexp=regexp,
+            smart_strings=smart_strings
+        )

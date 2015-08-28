@@ -735,6 +735,7 @@ class TestMappet(object):
             'node3': 'node3',
             'node_list': 'node_list',
         }
+        assert len(self.m._aliases) == 4
         # A dict with aliases should return normalized names also.
         xml = etree.Element('root')
         etree.SubElement(xml, 'Normalize-Me')
@@ -773,3 +774,51 @@ class TestMappet(object):
         assert '#text' not in self.m
         assert 'node1.non-existent.#text' not in self.m
         assert 'node1.#text' not in self.m
+
+    def test_xpath__given_existing_leaf__should_return_that_leaf(self):
+        u"""An XML leaf should be returned as a Literal object."""
+        node = self.m.xpath('node1/subnode2')
+        assert node.get() == 'subnode2_text'
+
+    def test_xpath__given_existing_node__should_return_that_node(self):
+        u"""A node that has children should be returned as Mapper object."""
+        import time
+        self.xml.set('list', 'l1')
+        self.xml.set('list', 'l1')
+        self.xml.set('list', 'l2')
+        self.xml.set('list', 'l3')
+        etree.SubElement(self.xml, 'list')
+        etree.SubElement(self.xml, 'list')
+        m = mappet.Mappet(self.xml)
+        t0 = time.clock()
+        node = m.xpath('node1')
+        t1 = time.clock() - t0
+        t0 = time.clock()
+        node_2 = m.xpath('node1', single_use=True)
+        t2 = time.clock() - t0
+        node_3 = m.xpath('list/l1')
+        assert node.has_children()
+        assert node.to_dict() == m.node1.to_dict()
+        assert node == node_2
+        assert isinstance(node_3, list)
+        # time for single use should be faster in this explicit case.
+        assert t2 < t1
+
+    def test_create_xpath_evaluator(self):
+        u"""Checks if mappet object cab be converted to XPatchEvaluator"""
+        assert isinstance(self.m.xpath_evaluator(), etree._XPathEvaluatorBase)
+
+    def test_xpath_regexp(self):
+        result = self.m.xpath(
+            "//*[re:test(., '^sub.*', 'subnode')]",
+            regexp=True,
+        )
+        assert len(result) == 5
+
+    def test_xpath_regexp_exslt(self):
+        result = self.m.xpath(
+            "//*[re:test(., '^sub.*', 'subnode')]",
+            namespaces='exslt',
+            regexp=True,
+        )
+        assert len(result) == 5
