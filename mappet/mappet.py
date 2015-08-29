@@ -7,9 +7,9 @@ u"""Module for dynamic mapping of XML trees to Python objects.
 """
 
 from copy import deepcopy
-from lxml import etree
-
 import re
+
+from lxml import etree
 
 import helpers
 
