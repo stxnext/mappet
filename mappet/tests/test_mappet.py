@@ -782,7 +782,6 @@ class TestMappet(object):
 
     def test_xpath__given_existing_node__should_return_that_node(self):
         u"""A node that has children should be returned as Mapper object."""
-        import time
         self.xml.set('list', 'l1')
         self.xml.set('list', 'l1')
         self.xml.set('list', 'l2')
@@ -790,22 +789,16 @@ class TestMappet(object):
         etree.SubElement(self.xml, 'list')
         etree.SubElement(self.xml, 'list')
         m = mappet.Mappet(self.xml)
-        t0 = time.clock()
-        node = m.xpath('node1')
-        t1 = time.clock() - t0
-        t0 = time.clock()
-        node_2 = m.xpath('node1', single_use=True)
-        t2 = time.clock() - t0
-        node_3 = m.xpath('list/l1')
-        assert node.has_children()
-        assert node.to_dict() == m.node1.to_dict()
-        assert node == node_2
-        assert isinstance(node_3, list)
-        # time for single use should be faster in this explicit case.
-        assert t2 < t1
+        xpath_evaluator_node = m.xpath('node1')
+        xpath_node = m.xpath('node1', single_use=True)
+        xpath_node_list = m.xpath('list/l1')
+        assert xpath_evaluator_node.has_children()
+        assert xpath_evaluator_node.to_dict() == m.node1.to_dict()
+        assert xpath_evaluator_node == xpath_node
+        assert isinstance(xpath_node_list, list)
 
     def test_create_xpath_evaluator(self):
-        u"""Checks if mappet object cab be converted to XPatchEvaluator"""
+        u"""Checks if mappet object can be converted to XPatchEvaluator"""
         assert isinstance(self.m.xpath_evaluator(), etree._XPathEvaluatorBase)
 
     def test_xpath_regexp(self):
@@ -814,6 +807,11 @@ class TestMappet(object):
             regexp=True,
         )
         assert len(result) == 5
+        x_node = etree.SubElement(self.xml, 'x_node')
+        x_node.text = 'xxxxx'
+        self.m = mappet.Mappet(self.xml)
+        result = self.m.xpath("//*[re:test(., 'x{5}')]", regexp=True)
+        assert result[-1] == x_node
 
     def test_xpath_regexp_exslt(self):
         result = self.m.xpath(

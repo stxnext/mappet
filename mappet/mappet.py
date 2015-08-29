@@ -7,8 +7,9 @@ u"""Module for dynamic mapping of XML trees to Python objects.
 """
 
 from copy import deepcopy
-from lxml import etree
 import re
+
+from lxml import etree
 
 import helpers
 
@@ -591,11 +592,14 @@ class Mappet(Node):
     ):
         u"""Executes XPath query on the lxml object and returns a correct object.
 
-        :path - string
-        :namespaces - string (re, exslt) or dict
-        :regexp - bool
-        :smart_strings - bool
-        :single_use - bool
+        :param str path: xpath string ex. 'cars/car'
+        :param str/dict namespaces: ex. 'exslt', 're' or
+            {'re': "http://exslt.org/regular-expressions"}
+        :param bool regexp: if true and no namespaces is provided it will use
+            exslt namespace
+        :param bool smart_strings:
+        :param bool single_use: faster method for using only once does not
+            create XPathEvaluator instance.
 
         Namespace/regexp example:
         >>> root = mappet.Mappet("<root><a>aB</a><b>aBc</b></root>")
@@ -606,8 +610,9 @@ class Mappet(Node):
         )
         """
         if (
-            (namespaces and namespaces in ['exslt', 're']) or
-            (regexp and not namespaces)):
+            namespaces in ['exslt', 're'] or
+            (regexp and not namespaces)
+        ):
             namespaces = {'re': "http://exslt.org/regular-expressions"}
         if single_use:
             node = self._xml.xpath(path)
@@ -628,10 +633,10 @@ class Mappet(Node):
         return node
 
     def xpath_evaluator(self, namespaces=None, regexp=False, smart_strings=True):
-        u'''Creates an XPathEvaluator instance for an ElementTree or an Element.
+        u"""Creates an XPathEvaluator instance for an ElementTree or an Element.
 
-        :return XPatchEvaluator instance
-        '''
+        :return XPathEvaluator instance
+        """
         return etree.XPathEvaluator(
             self._xml,
             namespaces=namespaces,
