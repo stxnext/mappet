@@ -10,6 +10,7 @@ import datetime
 from functools import partial
 
 from lxml import etree
+
 import dateutil.parser
 
 
@@ -188,10 +189,7 @@ def etree_to_dict(t, **kw):
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
     if t.text:
         if t.tag is etree.Comment:
-            if kw.get('without_comment'):
-                # skips adding a comment node
-                pass
-            else:
+            if not kw.get('without_comments'):
                 # adds a comments node
                 d['#comments'] = t.text
         elif children or t.attrib:

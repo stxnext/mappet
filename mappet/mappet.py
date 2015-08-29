@@ -366,7 +366,8 @@ class Mappet(Node):
 
         Remaining arguments are passed to etree.tostring as is.
 
-        kwarg without_comments: bool does not work with pretty print
+        kwarg without_comments: bool because it works only in C14N flags:
+        'pretty print' and 'encoding' are ignored.
 
         :param bool pretty_print: whether to format the output
         :param str encoding: which encoding to use (ASCII by default)
@@ -374,12 +375,15 @@ class Mappet(Node):
         :returns: node's representation as a string
         """
         if kw.get('without_comments') and not kw.get('method'):
-            # arg 'with_comments' work only in c14n process
-            # c14n does not support pretty_print
             kw.pop('without_comments')
             kw['method'] = 'c14n'
             kw['with_comments'] = False
-        return etree.tostring(self._xml, pretty_print=pretty_print, encoding=encoding, **kw)
+        return etree.tostring(
+            self._xml,
+            pretty_print=pretty_print,
+            encoding=encoding,
+            **kw
+        )
 
     def has_children(self):
         u"""Returns true if a node has children."""
@@ -572,7 +576,11 @@ class Mappet(Node):
         element.text = helper(value)
 
     def to_dict(self, **kw):
-        u"""Converts the lxml object to a dict."""
+        u"""Converts the lxml object to a dict.
+
+        possible kwargs:
+            without_comments: bool
+        """
         _, value = helpers.etree_to_dict(self._xml, **kw).popitem()
         return value
 

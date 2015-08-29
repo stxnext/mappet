@@ -246,7 +246,7 @@ class TestTreeHelpers(object):
                 '#comments': 'a_comment_node'
             }
         }
-        assert helpers.etree_to_dict(self.root, without_comment=True) == {
+        assert helpers.etree_to_dict(self.root, without_comments=True) == {
             'root': {}
         }
 
