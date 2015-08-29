@@ -7,9 +7,9 @@ u"""Module for dynamic mapping of XML trees to Python objects.
 """
 
 from copy import deepcopy
-from lxml import etree
-
 import re
+
+from lxml import etree
 
 import helpers
 
@@ -583,9 +583,9 @@ class Mappet(Node):
         element.clear()
         element.text = helper(value)
 
-    def to_dict(self):
+    def to_dict(self, trim=True):
         u"""Converts the lxml object to a dict."""
-        _, value = helpers.etree_to_dict(self._xml).popitem()
+        _, value = helpers.etree_to_dict(self._xml, trim=trim).popitem()
         return value
 
     def _get_aliases(self):

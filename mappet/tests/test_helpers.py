@@ -241,17 +241,34 @@ class TestTreeHelpers(object):
         tag = etree.Element('root')
         tag.text = ' '
 
-        assert helpers.etree_to_dict(tag) == {
+        assert helpers.etree_to_dict(tag, trim=False) == {
             'root': ' ',
         }
         tag = etree.Element('root')
         tag.set('attr1', 'value1')
         tag.text = ' '
 
-        assert helpers.etree_to_dict(tag) == {
+        assert helpers.etree_to_dict(tag, trim=False) == {
             'root': {
                 '@attr1': 'value1',
                 '#text': ' ',
+            }
+        }
+
+    def test__dict_to_etree__given_node_with_trim(self):
+        tag = etree.Element('root')
+        tag.text = ' '
+
+        assert helpers.etree_to_dict(tag) == {
+            'root': None,
+        }
+        tag = etree.Element('root')
+        tag.set('attr1', 'value1')
+        tag.text = ' '
+
+        assert helpers.etree_to_dict(tag,) == {
+            'root': {
+                '@attr1': 'value1',
             }
         }
 
