@@ -5,8 +5,9 @@ u"""Helper functions.
 .. :module: helpers
    :synopsis: Helper functions.
 """
-from collections import defaultdict
 import datetime
+
+from collections import defaultdict
 from functools import partial
 
 from lxml import etree
@@ -164,7 +165,7 @@ def normalize_tag(tag):
     return tag.lower().replace('-', '_')
 
 
-def etree_to_dict(t, **kw):
+def etree_to_dict(t, trim=True, **kw):
     u"""Converts an lxml.etree object to Python dict.
 
     >>> etree_to_dict(etree.Element('root'))
@@ -179,14 +180,17 @@ def etree_to_dict(t, **kw):
 
     if children:
         dd = defaultdict(list)
-        for dc in map(partial(etree_to_dict, **kw), children):
+        for dc in map(partial(etree_to_dict, trim=trim, **kw), children):
             for k, v in dc.iteritems():
                 # do not add Comment instance to the key
                 if k is not etree.Comment:
                     dd[k].append(v)
         d = {t.tag: {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
+
     if t.attrib:
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
+    if trim and t.text:
+        t.text = t.text.strip()
     if t.text:
         if t.tag is etree.Comment:
             if not kw.get('without_comments'):

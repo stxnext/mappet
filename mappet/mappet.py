@@ -6,10 +6,11 @@ u"""Module for dynamic mapping of XML trees to Python objects.
    :synopsis: Module for dynamic mapping of XML trees to Python objects.
 """
 
-from copy import deepcopy
-from lxml import etree
-
 import re
+
+from copy import deepcopy
+
+from lxml import etree
 
 import helpers
 
@@ -101,6 +102,11 @@ class Node(object):
             self._xml.text = str(value)
         else:
             self._xml.set(key, str(value))
+
+    @property
+    def tag(self):
+        u"""Returns node's tag name."""
+        return self._xml.tag
 
 
 class Literal(Node):
@@ -249,13 +255,28 @@ class Mappet(Node):
     """
 
     def __init__(self, xml):
-        u"""Creates the mappet object from either lxml object, a string or a dict."""
+        u"""Creates the mappet object from either lxml object, a string or a dict.
+
+        If you pass a dict without root element, one will be created for you with
+        'root' as tag name.
+
+        >>> Mappet({'a': {'#text': 'list_elem_1', '@attr1': 'val1'}}).to_str()
+        '<a attr1="val1">list_elem_1</a>'
+        >>> Mappet({'#text': 'list_elem_1', '@attr1': 'val1'}).to_str()
+        '<root attr1="val1">list_elem_1</root>'
+        """
         if etree.iselement(xml):
             self._xml = xml
         elif isinstance(xml, basestring):
             self._xml = etree.fromstring(xml)
         elif isinstance(xml, dict):
-            self._xml = helpers.dict_to_etree(xml, etree.Element('root'))
+            if len(xml) == 1:
+                root_name = xml.keys()[0]
+                body = xml[root_name]
+            else:
+                root_name = 'root'
+                body = xml
+            self._xml = helpers.dict_to_etree(body, etree.Element(root_name))
         else:
             raise AttributeError('Specified data cannot be used to construct a Mappet object.')
 

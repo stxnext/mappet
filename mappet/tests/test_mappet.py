@@ -90,6 +90,10 @@ class TestNode(object):
         # A new attribute should be added, if id doesn't exist.
         assert self.node.getattr('new-attr') == 'new-val'
 
+    def test_tag(self):
+        # ``tag`` should return the tag's tagname
+        assert self.node.tag == 'root'
+
 
 class TestNoneNode(object):
     @pytest.fixture(scope='class')
@@ -289,6 +293,10 @@ class TestLiteral(object):
         # If leaf's text is empty, return the contents for ``default`` argument.
         assert literal.get(default='alternative') == 'alternative'
 
+    def test_tag(self, literal):
+        # ``tag`` should return the Literal's tagname
+        assert literal.tag == 'literal_node'
+
 
 class TestMappet(object):
     u"""Unittests for the actual mappet module."""
@@ -332,6 +340,9 @@ class TestMappet(object):
         xml_dict = self.m.to_dict()
         m = mappet.Mappet(xml_dict)
         assert m.to_dict() == xml_dict
+
+        assert mappet.Mappet({'a': {'#text': 'list_elem_1', '@attr1': 'val1'}}).to_str() == '<a attr1="val1">list_elem_1</a>'
+        assert mappet.Mappet({'#text': 'list_elem_1', '@attr1': 'val1'}).to_str() == '<root attr1="val1">list_elem_1</root>'
 
     def test__nonzero__(self):
         u"""Tests for bool() function called on mappet objects."""
@@ -813,3 +824,9 @@ class TestMappet(object):
         assert '#text' not in self.m
         assert 'node1.non-existent.#text' not in self.m
         assert 'node1.#text' not in self.m
+
+    def test_tag(self):
+        # ``tag`` should return the Mappet's tagname
+        assert self.m.tag == 'root'
+        assert self.m.node1.tag == 'node1'
+        assert self.m.node1.subnode2.tag == 'subnode2'
