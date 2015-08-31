@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from setuptools import setup
+from setuptools import setup, __version__
 from setuptools.command.test import test as TestCommand
 import io
 import sys
 
-import mappet
+exec(open('mappet/version.py').read())
 
 
 def read(*filenames, **kwargs):
@@ -35,7 +35,7 @@ class PyTest(TestCommand):
 
 setup(
     name='mappet',
-    version=mappet.__version__,
+    version=__version__,
     url='https://github.com/stxnext/mappet',
     license='GNU Lesser General Public License v3(LGPLv3)',
     author='Radosław Szalski',
