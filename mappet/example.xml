@@ -40,6 +40,11 @@
                 <seats>5</seats>
                 <weight>2890</weight>
             </Car>
+            <!--<Car>-->
+                <!--<id>54321</id>-->
+                <!--<Manufacturer>BMW</Manufacturer>-->
+                <!--<Model_Name>X1</Model_Name>-->
+            <!--</Car>-->
         </cars>
     </reply>
 </a-message>

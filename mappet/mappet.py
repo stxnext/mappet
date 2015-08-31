@@ -6,8 +6,9 @@ u"""Module for dynamic mapping of XML trees to Python objects.
    :synopsis: Module for dynamic mapping of XML trees to Python objects.
 """
 
-from copy import deepcopy
 import re
+
+from copy import deepcopy
 
 from lxml import etree
 
@@ -386,12 +387,24 @@ class Mappet(Node):
 
         Remaining arguments are passed to etree.tostring as is.
 
+        kwarg without_comments: bool because it works only in C14N flags:
+        'pretty print' and 'encoding' are ignored.
+
         :param bool pretty_print: whether to format the output
         :param str encoding: which encoding to use (ASCII by default)
         :rtype: str
         :returns: node's representation as a string
         """
-        return etree.tostring(self._xml, pretty_print=pretty_print, encoding=encoding, **kw)
+        if kw.get('without_comments') and not kw.get('method'):
+            kw.pop('without_comments')
+            kw['method'] = 'c14n'
+            kw['with_comments'] = False
+        return etree.tostring(
+            self._xml,
+            pretty_print=pretty_print,
+            encoding=encoding,
+            **kw
+        )
 
     def has_children(self):
         u"""Returns true if a node has children."""
@@ -583,9 +596,13 @@ class Mappet(Node):
         element.clear()
         element.text = helper(value)
 
-    def to_dict(self, trim=True):
-        u"""Converts the lxml object to a dict."""
-        _, value = helpers.etree_to_dict(self._xml, trim=trim).popitem()
+    def to_dict(self, **kw):
+        u"""Converts the lxml object to a dict.
+
+        possible kwargs:
+            without_comments: bool
+        """
+        _, value = helpers.etree_to_dict(self._xml, **kw).popitem()
         return value
 
     def _get_aliases(self):
