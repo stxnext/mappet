@@ -10,8 +10,8 @@
    :target: https://codeclimate.com/github/stxnext/mappet
    :alt: Code Climate
 
-.. image:: http://www.quantifiedcode.com/api/v1/project/4f798b7ea0954d8790f3fe420a5fde0e/badge.svg
-   :target: http://www.quantifiedcode.com/app/project/4f798b7ea0954d8790f3fe420a5fde0e
+.. image:: https://www.quantifiedcode.com/api/v1/project/f8a2354efbd94e74bdfa846c61deabc6/badge.svg
+   :target: https://www.quantifiedcode.com/app/project/f8a2354efbd94e74bdfa846c61deabc6
    :alt: Code issues
 
 .. image:: https://www.codacy.com/project/badge/4ea440e5fa5045acb376e6461e804179
