@@ -418,7 +418,7 @@ class Mappet(Node):
         """
         tag = None
         if key:
-            tag = key if exact else self._get_aliases().get(key, None)
+            tag = key if exact else self._get_aliases().get(key)
             if not tag:
                 raise KeyError(key)
         for child in self._xml.iterchildren(tag=tag):
