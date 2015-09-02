@@ -210,7 +210,7 @@ class Literal(Node):
 class _NoneNode(object):
     u"""None like object with converting methods."""
 
-    _mocked_functions = filter(lambda f: f.startswith('to_'), dir(helpers)) + ['to_dict']
+    _mocked_functions = [f for f in dir(helpers) if f.startswith('to_')] + ['to_dict']
 
     def __new__(cls, *args, **kwargs):
         u"""Singleton.
