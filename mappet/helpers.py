@@ -122,7 +122,7 @@ def from_float(value):
 
 def from_time(value):
     if not isinstance(value, datetime.time):
-        raise Exception("Value %r is not datetime.time object" % value)
+        raise Exception('Value {} is not datetime.time object'.format(value))
 
     return value.isoformat()
 
@@ -130,17 +130,17 @@ def from_time(value):
 @no_empty_value
 def from_datetime(value):
     if not isinstance(value, datetime.datetime):
-        raise Exception("Unexpected type %s of value %s (expected datetime.datetime)" % (type(value), repr(value)))
+        raise Exception('Unexpected type {} of value {} (expected datetime.datetime)'.format(type(value), value))
 
     if value.tzinfo is None:
-        value = value.replace(tzinfo=dateutil.tz.tzlocal()) # pragma: nocover
+        value = value.replace(tzinfo=dateutil.tz.tzlocal())  # pragma: nocover
     return value.replace(microsecond=0).isoformat()
 
 
 @no_empty_value
 def from_date(value):
     if not isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
-        raise Exception(u"Not datetime.date object but %s: %s" % (type(value), repr(value)))
+        raise Exception('Not datetime.date object but {}: {}'.format(type(value), value))
 
     return value.isoformat()
 
