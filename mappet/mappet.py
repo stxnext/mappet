@@ -554,10 +554,10 @@ class Mappet(Node):
         if isinstance(value, dict):
             self.assign_dict(element, name, value)
         elif isinstance(value, (list, tuple, set)):
-            self.assign_sequence_or_set(element, name, value)
+            self.assign_sequence_or_set(element, value)
         else:
             # Literal value.
-            self.assign_literal(element, name, value)
+            self.assign_literal(element, value)
 
         # Clear the aliases.
         self._aliases = None
@@ -570,7 +570,7 @@ class Mappet(Node):
         # Copies #text and @attrs from the dict.
         helpers.dict_to_etree(value, new_element)
 
-    def assign_sequence_or_set(self, element, tag_name, value):
+    def assign_sequence_or_set(element, value):
         element.clear()
 
         for item in value:
@@ -580,13 +580,12 @@ class Mappet(Node):
                 element.append(child)
             del temp_element
 
-    def assign_literal(self, element, tag_name, value):
+    def assign_literal(element, value):
         u"""Assigns a literal.
 
         If a given node doesn't exist, it will be created.
 
         :param etree.Element element: element to which we assign.
-        :param string tag_name: element name, if it itself doesn't exists.
         :param value: the value to assign
         """
         # Searches for a conversion method specific to the type of value.
