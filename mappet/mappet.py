@@ -570,6 +570,7 @@ class Mappet(Node):
         # Copies #text and @attrs from the dict.
         helpers.dict_to_etree(value, new_element)
 
+    @staticmethod
     def assign_sequence_or_set(element, value):
         element.clear()
 
@@ -580,6 +581,7 @@ class Mappet(Node):
                 element.append(child)
             del temp_element
 
+    @staticmethod
     def assign_literal(element, value):
         u"""Assigns a literal.
 
