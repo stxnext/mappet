@@ -171,7 +171,8 @@ class Literal(Node):
         u"""Returns the length of node's text."""
         return len(self._xml.text)
 
-    def __dir__(self):
+    @staticmethod
+    def __dir__():
         u"""Lists available casting methods."""
         return sorted(set([fnc for fnc in helpers.__all__ if fnc.startswith('to_')]))
 
