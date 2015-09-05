@@ -223,7 +223,7 @@ class _NoneNode(object):
         return cls._inst
 
     def __repr__(self):
-        return 'NoneNode'
+        return 'NONE_NODE'
 
     def __nonzero__(self):
         return False
@@ -239,7 +239,7 @@ class _NoneNode(object):
         raise AttributeError(name)
 
 
-NoneNode = _NoneNode()
+NONE_NODE = _NoneNode()
 
 
 class Mappet(Node):
@@ -367,7 +367,7 @@ class Mappet(Node):
     def __contains__(self, path):
         u"""Check if object contains given path."""
         elem = self.sget(path)
-        return not (elem is None or elem is NoneNode)
+        return not (elem is None or elem is NONE_NODE)
 
     def __getstate__(self):
         u"""Converts the lxml to string for Pickling."""
@@ -455,7 +455,7 @@ class Mappet(Node):
                 self._xml.append(element)
                 self._aliases = None
 
-    def sget(self, path, default=NoneNode):
+    def sget(self, path, default=NONE_NODE):
         u"""Enables access to nodes if one or more of them don't exist.
 
         Example:
@@ -467,7 +467,7 @@ class Mappet(Node):
         >>> m.sget('tag.#text')
         'text value'
         >>> m.sget('reply.vms_model_cars.car.0.params.doors')
-        NoneNode
+        NONE_NODE
 
         Accessing nonexistent path returns None-like object with mocked
         converting functions which returns None:
@@ -483,7 +483,7 @@ class Mappet(Node):
             text_or_attr = last_attr[1:]
             attrs = attrs[:-1]
             # When getting #text and @attr we want default value to be None.
-            if default is NoneNode:
+            if default is NONE_NODE:
                 default = None
 
         my_object = self

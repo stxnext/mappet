@@ -98,10 +98,10 @@ class TestNode(object):
 class TestNoneNode(object):
     @pytest.fixture(scope='class')
     def none_node(self):
-        return mappet.NoneNode
+        return mappet.NONE_NODE
 
     def test__repr__(self, none_node):
-        assert repr(none_node) == 'NoneNode'
+        assert repr(none_node) == 'NONE_NODE'
 
     def test__nonzero__(self, none_node):
         assert bool(none_node) is False
@@ -540,8 +540,8 @@ class TestMappet(object):
 
     def test_sget__accessing_nonexistent_attribute__return_default(self):
         u"""Tests for safe getting nonexistent paths."""
-        assert self.m.sget('node1.subnode666') is mappet.NoneNode
-        assert self.m.sget('fake_node.subnode2') is mappet.NoneNode
+        assert self.m.sget('node1.subnode666') is mappet.NONE_NODE
+        assert self.m.sget('fake_node.subnode2') is mappet.NONE_NODE
         assert self.m.sget('fake_node.subnode2.@no_attr') is None
         assert self.m.sget('fake_node.subnode2.#text') is None
         assert self.m.sget('node1.#text') is None
