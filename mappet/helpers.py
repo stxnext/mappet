@@ -223,7 +223,8 @@ def dict_to_etree(d, root):
             for k, v in d.items():
                 assert isinstance(k, basestring)
                 if k.startswith('#'):
-                    assert k == '#text' and isinstance(v, basestring)
+                    assert k == '#text'
+                    assert isinstance(v, basestring)
                     node.text = v
                 elif k.startswith('@'):
                     assert isinstance(v, basestring)
