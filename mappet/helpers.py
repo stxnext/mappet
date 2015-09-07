@@ -192,10 +192,9 @@ def etree_to_dict(t, trim=True, **kw):
     if trim and t.text:
         t.text = t.text.strip()
     if t.text:
-        if t.tag is etree.Comment:
-            if not kw.get('without_comments'):
-                # adds a comments node
-                d['#comments'] = t.text
+        if t.tag is etree.Comment and not kw.get('without_comments'):
+            # adds a comments node
+            d['#comments'] = t.text
         elif children or t.attrib:
             d[t.tag]['#text'] = t.text
         else:
