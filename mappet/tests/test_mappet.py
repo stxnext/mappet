@@ -62,8 +62,8 @@ class TestNode(object):
             assert self.node[{'hai!'}] == 'val1'
 
     def test_getattr(self):
-        u"""Tests for a direct attribute accesss."""
-        # For given attributes, returns theur value, just as __getitem__ does.
+        u"""Tests for a direct attribute access."""
+        # For given attributes, returns their value, just as __getitem__ does.
         assert self.node.getattr('attr1') == 'val1'
         assert self.node.getattr('attr2') == 'val2'
 
@@ -213,7 +213,7 @@ class TestLiteral(object):
         with pytest.raises(AttributeError):
             assert literal.my_helper() == 'node-text'
 
-        # If a method starts with "to_", but does not exist in heleprs module,
+        # If a method starts with "to_", but does not exist in helpers module,
         # throws an exception.
         with pytest.raises(AttributeError):
             assert literal.to_unicode() == 'node-text'
@@ -230,7 +230,7 @@ class TestLiteral(object):
             <auth>
                 <user type="admin" first-name="John" last-name="Johnny">123</user>
                 <user type="admin" first-name="John" last-name="Johnny">123</user>
-                <user type="edior" first-name="John" last-name="Johnny">123</user>
+                <user type="editor" first-name="John" last-name="Johnny">123</user>
             </auth>
         </auth-request>'''
 
@@ -409,7 +409,6 @@ class TestMappet(object):
     def test__delitem__(self):
         u"""Tests for removal of nodes by key."""
         assert len(self.m.node1) == 3
-        # Usuwamy wszystkie węzły o nazwie 'subnode1' (2).
         # Removing all nodes called `subnode1` (2).
         del self.m.node1['subnode1']
         # Only 1 node should remain in total.
@@ -590,7 +589,7 @@ class TestMappet(object):
 
     def test_set_new_element(self):
         u"""Tests for creating new XML nodes."""
-        # A created node should be correctly representet in the parent's XML structure.
+        # A created node should be correctly represented in the parent's XML structure.
         self.m.node1.new_element = 'new_element_text'
 
         assert self.m.node1.to_dict() == {
@@ -806,12 +805,12 @@ class TestMappet(object):
         assert 'node1.im-not-here' not in self.m
 
     def test_contains__existing_attr__will_contain(self):
-        u"""Checks if Mappet object contains atrr."""
+        u"""Checks if Mappet object contains attr."""
         assert '@attr1' in self.m
         assert 'node_list.subnode.0.@attr1' in self.m
 
     def test_contains__nonexistent_attr__wont_contain(self):
-        u"""Checks if Mappet object doesn't contain atrr."""
+        u"""Checks if Mappet object doesn't contain attr."""
         assert '@fake-attr' not in self.m
         assert 'node_list.subnode.0.@fake-attr' not in self.m
         assert 'node_list.subnode.1.@attr1' not in self.m
