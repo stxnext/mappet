@@ -732,12 +732,12 @@ class TestMappet(object):
 
     def test_set_new_element_from_literal(self):
         u"""Tests for creation of new XML nodes from leafs."""
-        self.m.node3 = 'tekst'
+        self.m.node3 = 'text'
         assert self.m.to_dict() == {
             'node1': {
                 'subnode2': 'subnode2_text', 'subnode1': [None, None]
             },
-            'node3': 'tekst',
+            'node3': 'text',
             'node2': None,
             'node_list': {'subnode': [{'#text': 'subnode_text', '@attr1': 'val1'}, None, None]},
             '@attr1': 'val1',
