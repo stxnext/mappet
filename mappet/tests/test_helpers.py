@@ -23,10 +23,14 @@ class TestHelpers(object):
         # Defined mnemonics should have a boolean value.
         assert helpers.to_bool('1')
         assert helpers.to_bool('true')
+        assert helpers.to_bool('True')
         assert helpers.to_bool('YES')
+        assert helpers.to_bool(u'yes')
         assert not helpers.to_bool('0')
         assert not helpers.to_bool('false')
+        assert not helpers.to_bool(u'False')
         assert not helpers.to_bool('NO')
+        assert not helpers.to_bool('no')
 
         # Undefined mnemonics should have value equal to ``bool(mnemonic)``.
         assert helpers.to_bool('whatever')

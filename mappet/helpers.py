@@ -49,15 +49,24 @@ def no_empty_value(func):
 
 
 def to_bool(value):
+    """Converts human boolean-like values to Python boolean.
+
+    Falls back to :class:`bool` when ``value`` is not recognized.
+
+    :param value: the value to convert
+    :returns: ``True`` if value is truthy, ``False`` otherwise
+    :rtype: bool
+    """
     cases = {
         '0': False,
         'false': False,
-        'NO': False,
+        'no': False,
 
         '1': True,
         'true': True,
-        'YES': True,
+        'yes': True,
     }
+    value = value.lower() if isinstance(value, basestring) else value
     return cases.get(value, bool(value))
 
 
