@@ -629,18 +629,18 @@ class Mappet(Node):
             smart_strings=True,
             single_use=False,
     ):
-        u"""Executes XPath query on the lxml object and returns a correct object.
+        u"""Executes XPath query on the ``lxml`` object and returns a correct object.
 
-        :param str path: xpath string ex. 'cars/car'
-        :param str/dict namespaces: ex. 'exslt', 're' or
-            {'re': "http://exslt.org/regular-expressions"}
-        :param bool regexp: if true and no namespaces is provided it will use
-            exslt namespace
+        :param str path: XPath string e.g., 'cars'/'car'
+
+        :param str/dict namespaces: e.g., 'exslt', 're' or
+            ``{'re': "http://exslt.org/regular-expressions"}``
+        :param bool regexp: if ``True`` and no namespaces is provided, it will use
+            ``exslt`` namespace
         :param bool smart_strings:
-        :param bool single_use: faster method for using only once does not
-            create XPathEvaluator instance.
+        :param bool single_use: faster method for using only once. Does not
+            create ``XPathEvaluator`` instance.
 
-        Namespace/regexp example:
         >>> root = mappet.Mappet("<root><a>aB</a><b>aBc</b></root>")
         >>> root.XPath(
             "//*[re:test(., '^abc$', 'i')]",
@@ -674,7 +674,7 @@ class Mappet(Node):
     def xpath_evaluator(self, namespaces=None, regexp=False, smart_strings=True):
         u"""Creates an XPathEvaluator instance for an ElementTree or an Element.
 
-        :return XPathEvaluator instance
+        :returns: ``XPathEvaluator`` instance
         """
         return etree.XPathEvaluator(
             self._xml,
