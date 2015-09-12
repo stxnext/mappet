@@ -442,7 +442,7 @@ class Mappet(Node):
         Each dict key is used as a tagname and value as text.
         """
         for key, value in kwargs.items():
-            helper = helpers.CAST_DICT.get(type(value), helpers.from_str)
+            helper = helpers.CAST_DICT.get(type(value), str)
             tag = self._get_aliases().get(key, key)
 
             elements = list(self._xml.iterchildren(tag=tag))
@@ -592,7 +592,7 @@ class Mappet(Node):
         :param value: the value to assign
         """
         # Searches for a conversion method specific to the type of value.
-        helper = helpers.CAST_DICT.get(type(value), helpers.from_str)
+        helper = helpers.CAST_DICT.get(type(value), str)
 
         # Removes all children and attributes.
         element.clear()

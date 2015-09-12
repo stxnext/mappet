@@ -117,18 +117,6 @@ def from_bool(value):
         return False
 
 
-def from_str(value):
-    return str(value)
-
-
-def from_int(value):
-    return str(value)
-
-
-def from_float(value):
-    return str(value)
-
-
 def from_time(value):
     if not isinstance(value, datetime.time):
         raise Exception('Value {} is not datetime.time object'.format(value))
@@ -156,9 +144,10 @@ def from_date(value):
 
 CAST_DICT = {
     bool: from_bool,
-    int: from_int,
-    str: from_str,
-    float: from_float,
+    int: str,
+    str: str,
+    unicode: str,
+    float: str,
     datetime.time: from_time,
     datetime.datetime: from_datetime,
     datetime.date: from_date,

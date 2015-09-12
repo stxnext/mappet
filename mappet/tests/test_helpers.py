@@ -120,20 +120,18 @@ class TestHelpers(object):
         # Returns False if exception is thrown.
         assert helpers.from_bool([]) == False
 
-    def test_from_str(self):
-        u"""Tests for ``str`` conversion."""
-        assert helpers.from_str('') == ''
-        assert helpers.from_str('sth') == 'sth'
-
-    def test_from_int(self):
-        u"""Tests for ``int`` conversion."""
-        assert helpers.from_int(-4) == '-4'
-        assert helpers.from_int('0') == '0'
-
-    def test_from_float(self):
-        u"""Tests for ``float`` conversion."""
-        assert helpers.from_float(-3.14) == '-3.14'
-        assert helpers.from_float(-0.0) == '-0.0'
+    @pytest.mark.parametrize("value, expected", [
+        ('', ''),
+        ('sth', 'sth'),
+        (u'unicode', u'unicode'),
+        (-4, '-4'),
+        (0, '0'),
+        (-3.14, '-3.14'),
+        (-0.0, '-0.0'),
+    ])
+    def test__converting_str_unicode_int_and_float__should_use_str_formatter(self, value, expected):
+        converter = helpers.CAST_DICT[type(value)]
+        assert converter(value) == expected
 
     def test_from_time(self):
         u"""Tests for ``datetime.time`` to ``str`` conversion."""
