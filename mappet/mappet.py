@@ -218,7 +218,7 @@ class _NoneNode(object):
 
         Recipe 6.15 by Jurgen Hermann.
         """
-        if '_inst' not in vars(cls):
+        if '_inst' not in vars(cls):  # pragma: no cover
             cls._inst = super(type, cls).__new__(cls, *args, **kwargs)
         return cls._inst
 
