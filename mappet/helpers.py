@@ -176,15 +176,19 @@ def etree_to_dict(t, trim=True, **kw):
     """
     d = {t.tag: {} if t.attrib else None}
     children = list(t)
+    etree_to_dict_w_args = partial(etree_to_dict, trim=trim, **kw)
 
     if children:
         dd = defaultdict(list)
-        for dc in map(partial(etree_to_dict, trim=trim, **kw), children):
+        d = {t.tag: {}}
+
+        for dc in map(etree_to_dict_w_args, children):
             for k, v in dc.iteritems():
                 # do not add Comment instance to the key
                 if k is not etree.Comment:
                     dd[k].append(v)
-        d = {t.tag: {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}}
+
+        d[t.tag] = {k: v[0] if len(v) == 1 else v for k, v in dd.iteritems()}
 
     if t.attrib:
         d[t.tag].update(('@' + k, v) for k, v in t.attrib.iteritems())
