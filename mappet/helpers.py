@@ -157,6 +157,10 @@ CAST_DICT = {
 def normalize_tag(tag):
     u"""Normalizes tag name.
 
+    :param str tag: tag name to normalize
+    :rtype: str
+    :returns: normalized tag name
+
     >>> normalize_tag('tag-NaMe')
     'tag_name'
     """
