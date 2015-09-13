@@ -27,9 +27,6 @@ __all__ = [
     'from_bool',
     'from_date',
     'from_datetime',
-    'from_float',
-    'from_int',
-    'from_str',
     'from_time',
 
     'CAST_DICT',
