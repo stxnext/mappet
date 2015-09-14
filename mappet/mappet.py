@@ -553,7 +553,7 @@ class Mappet(Node):
             element = etree.SubElement(self._xml, name)
 
         if isinstance(value, dict):
-            self.assign_dict(element, name, value)
+            self.assign_dict(element, value)
         elif isinstance(value, (list, tuple, set)):
             self.assign_sequence_or_set(element, value)
         else:
@@ -563,13 +563,19 @@ class Mappet(Node):
         # Clear the aliases.
         self._aliases = None
 
-    def assign_dict(self, element, tag_name, value):
-        new_element = etree.Element(tag_name)
-        # Replaces the previous node with the new one.
-        self._xml.replace(element, new_element)
+    def assign_dict(self, node, xml_dict):
+        """Assigns a Python dict to a ``lxml`` node.
 
-        # Copies #text and @attrs from the dict.
-        helpers.dict_to_etree(value, new_element)
+        :param node: A node to assign the dict to.
+        :param xml_dict: The dict with attributes/children to use.
+        """
+        new_node = etree.Element(node.tag)
+
+        # Replaces the previous node with the new one
+        self._xml.replace(node, new_node)
+
+        # Copies #text and @attrs from the xml_dict
+        helpers.dict_to_etree(xml_dict, new_node)
 
     @staticmethod
     def assign_sequence_or_set(element, value):
