@@ -322,16 +322,11 @@ class Mappet(Node):
 
         return super(Mappet, self).__setattr__(name, value)
 
-    def __delattr__(self, name):
+    def __delattr__(self, key):
         u"""Node removal."""
-        # Searches among aliases, if none is found returns the original name.
-        tag = self._get_aliases().get(name, name)
-
-        # Checks if name is not a part of class definition.
-        if tag not in dir(self.__class__):
-            # Removes all children with a given tagname.
-            for child in self._xml.iterchildren(tag=tag):
-                self._xml.remove(child)
+        # Searches among aliases, if none is found returns the original key.
+        tag = self._get_aliases().get(key, key)
+        self.__delitem__(tag)
 
     def __getitem__(self, key):
         u"""Dictionary access."""
@@ -351,7 +346,7 @@ class Mappet(Node):
         return super(Mappet, self).__getitem__(key)
 
     def __delitem__(self, key):
-        u"""Removes a node through dictionary access."""
+        u"""Removes all children with a given key."""
         # Checks if name is not a part of class definition.
         if key not in dir(self.__class__):
             for child in self._xml.iterchildren(tag=key):
