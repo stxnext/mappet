@@ -94,6 +94,18 @@ class TestNode(object):
         # ``tag`` should return the tag's tagname
         assert self.node.tag == 'root'
 
+    def test_is_key_attr_or_text__given_attr_key__should_return_true(self):
+        assert self.node.is_key_attr_or_text('@this_is_an_attr_key')
+        assert self.node.is_key_attr_or_text(u'@this_is_a_unicode_attr_key')
+
+    def test_is_key_attr_or_text__given_text_key__should_return_true(self):
+        assert self.node.is_key_attr_or_text('#this_is_a_text_key')
+        assert self.node.is_key_attr_or_text(u'#this_is_a_unicode_text_key')
+
+    def test_is_key_attr_or_text__given_neither_text_nor_attr_key__should_return_false(self):
+        assert not self.node.is_key_attr_or_text('this_is_not_a_text_key')
+        assert not self.node.is_key_attr_or_text(u'this_isnt_either')
+
 
 class TestNoneNode(object):
     @pytest.fixture(scope='class')

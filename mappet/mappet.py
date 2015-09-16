@@ -67,7 +67,7 @@ class Node(object):
         >>> Node(xml)['@attr1']
         'val1'
         """
-        if isinstance(key, basestring) and (key.startswith('@') or key.startswith('#')):
+        if self.is_key_attr_or_text(key):
             return self.getattr(key[1:])
 
         raise KeyError(key)
@@ -107,6 +107,10 @@ class Node(object):
     def tag(self):
         u"""Returns node's tag name."""
         return self._xml.tag
+
+    @staticmethod
+    def is_key_attr_or_text(key):
+        return isinstance(key, basestring) and key.startswith(('@', '#'))
 
 
 class Literal(Node):
@@ -191,7 +195,7 @@ class Literal(Node):
 
         Extending the leaf in this case is not possible, since a string is returned.
         """
-        if isinstance(key, basestring) and (key.startswith('@') or key.startswith('#')):
+        if self.is_key_attr_or_text(key):
             self.setattr(key[1:], value)
 
     def __add__(self, other):
