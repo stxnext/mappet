@@ -337,7 +337,7 @@ class Mappet(Node):
         u"""Dictionary access."""
         # Checks if the call isn't to an attribute.
         if isinstance(key, basestring) and not key.startswith('@'):
-            children = self.children(key, exact=True)
+            children = self.children(key)
 
             if len(children) == 1:
                 children = children[0]
@@ -411,30 +411,31 @@ class Mappet(Node):
         u"""Returns true if a node has children."""
         return bool(len(self))
 
-    def iter_children(self, key=None, exact=False):
+    def iter_children(self, key=None):
         u"""Iterates over children.
 
         :param key: A key for filtering children by tagname.
-        :param exact: A flag to disable searching among aliases.
         """
         tag = None
+
         if key:
-            tag = key if exact else self._get_aliases().get(key)
+            tag = self._get_aliases().get(key)
+
             if not tag:
                 raise KeyError(key)
+
         for child in self._xml.iterchildren(tag=tag):
             if len(child):
                 yield self.__class__(child)
             else:
                 yield Literal(child)
 
-    def children(self, key=None, exact=False):
+    def children(self, key=None):
         u"""Returns node's children.
 
         :param key: A key for filtering children by tagname.
-        :param exact: A flag to disable searching among aliases.
         """
-        return list(self.iter_children(key, exact))
+        return list(self.iter_children(key))
 
     def update(self, **kwargs):
         u"""Updating or creation of new simple nodes.
