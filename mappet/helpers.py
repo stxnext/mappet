@@ -5,15 +5,12 @@ u"""Helper functions.
 .. :module: helpers
    :synopsis: Helper functions.
 """
+from collections import defaultdict
+from functools import partial, wraps
 import datetime
 
-from collections import defaultdict
-from functools import partial
-
 from lxml import etree
-
 import dateutil.parser
-
 
 __all__ = [
     'to_bool',
@@ -38,6 +35,7 @@ __all__ = [
 
 def no_empty_value(func):
     """Raises an exception if function argument is empty."""
+    @wraps(func)
     def wrapper(value):
         if not value:
             raise Exception("Empty value not allowed")
