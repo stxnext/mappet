@@ -91,14 +91,17 @@ def to_time(value):
 
 @no_empty_value
 def to_datetime(value):
+    return parse_datetime(value)
+
+
+def parse_datetime(value):
     value = str(value)
     return dateutil.parser.parse(value)
 
 
 @no_empty_value
 def to_date(value):
-    value = str(value)
-    return dateutil.parser.parse(value)
+    return parse_datetime(value)
 
 
 def from_bool(value):
