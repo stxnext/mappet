@@ -38,34 +38,49 @@ class TestHelpers(object):
         assert not helpers.to_bool('')
         assert not helpers.to_bool(())
 
-    def test_to_str(self):
+    @pytest.mark.parametrize('value,expected', [
+        ('', ''),
+        (5, '5'),
+        ({'a': 3}, "{'a': 3}"),
+    ])
+    def test_to_str(self, value, expected):
         u"""Tests for conversion of values to str."""
-        assert helpers.to_str('') == ''
-        assert helpers.to_str(5) == '5'
-        assert helpers.to_str({'a': 3}) == "{'a': 3}"
+        assert helpers.to_str(value) == expected
 
-    def test__to_str__given_encoded_diacritics__should_return_unicode_string(self):
+    @pytest.mark.parametrize('value,expected', [
+        (u'ążśęćółń', u'ążśęćółń'),
+        (u'\u0105', u'ą'),
+        (u'\u0105\u017c\u017a\u0107', u'ążźć'),
+        ({'a': 3}, "{'a': 3}"),
+    ])
+    def test__to_str__given_encoded_diacritics__should_return_unicode_string(self, value, expected):
         u"""Tests for conversion of unicode literals to unicode."""
-        assert helpers.to_str(u'ążśęćółń') == u'ążśęćółń'
-        assert helpers.to_str(u'\u0105') == u'ą'
-        assert helpers.to_str(u'\u0105\u017c\u017a\u0107') == u'ążźć'
-        assert helpers.to_str({'a': 3}) == "{'a': 3}"
+        assert helpers.to_str(value) == expected
 
-    def test_to_int(self):
+    @pytest.mark.parametrize('value,expected', [
+        (5, 5),
+        (-3.0, -3),
+    ])
+    def test_to_int(self, value, expected):
         u"""Tests for conversion of values to int."""
-        assert helpers.to_int(5) == 5
-        assert helpers.to_int(-3.0) == -3
+        assert helpers.to_int(value) == expected
 
-    def test_to_float(self):
+    @pytest.mark.parametrize('value,expected', [
+        (-3, -3.0),
+        (5, 5.0),
+        (3.14, 3.14),
+    ])
+    def test_to_float(self, value, expected):
         u"""Tests for conversion of values to float."""
-        assert helpers.to_float(-3) == -3.0
-        assert helpers.to_float(5) == 5.0
-        assert helpers.to_float(3.14) == 3.14
+        assert helpers.to_float(value) == expected
 
-    def test_to_decimal(self):
-        assert helpers.to_decimal(0.0) == Decimal(0)
-        assert helpers.to_decimal(-10.15) == Decimal(-10.15)
-        assert helpers.to_decimal('+10') == Decimal(10)
+    @pytest.mark.parametrize('value,expected', [
+        (0.0, 0),
+        (-10.15, -10.15),
+        ('+10', 10),
+    ])
+    def test_to_decimal(self, value, expected):
+        assert helpers.to_decimal(value) == Decimal(expected)
 
     def test_to_time(self):
         u"""Tests for conversion of ISO time to ``datetime.time`` objects."""
