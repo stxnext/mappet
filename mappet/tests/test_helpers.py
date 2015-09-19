@@ -5,6 +5,7 @@ u"""Unittests for helper functions.
 .. :module: test_helpers
    :synopsis: Unittests for helper functions.
 """
+from decimal import Decimal
 
 from lxml import etree
 import datetime
@@ -60,6 +61,11 @@ class TestHelpers(object):
         assert helpers.to_float(-3) == -3.0
         assert helpers.to_float(5) == 5.0
         assert helpers.to_float(3.14) == 3.14
+
+    def test_to_decimal(self):
+        assert helpers.to_decimal(0.0) == Decimal(0)
+        assert helpers.to_decimal(-10.15) == Decimal(-10.15)
+        assert helpers.to_decimal('+10') == Decimal(10)
 
     def test_to_time(self):
         u"""Tests for conversion of ISO time to ``datetime.time`` objects."""

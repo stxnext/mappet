@@ -7,6 +7,7 @@ u"""Unittests for the Mappet module.
 .. :module: test_mappet
    :synopsis: Unittests for the Mappet module.
 """
+from decimal import Decimal
 
 from lxml import etree
 import pytest
@@ -123,6 +124,7 @@ class TestNoneNode(object):
             'to_bool',
             'to_date',
             'to_datetime',
+            'to_decimal',
             'to_dict',
             'to_float',
             'to_int',
@@ -177,6 +179,11 @@ class TestLiteral(object):
         literal._xml.text = '3.14'
         assert float(literal) == 3.14
 
+    def test_to_decimal(self, literal):
+        u"""Tests conversion to decimal."""
+        literal._xml.text = '3.14'
+        assert literal.to_decimal() == Decimal('3.14')
+
     def test__nonzero__(self, literal):
         u"""Tests for representing a leaf as boolean."""
         # A leaf, which has any contents, should be truthy.
@@ -209,6 +216,7 @@ class TestLiteral(object):
             'to_bool',
             'to_date',
             'to_datetime',
+            'to_decimal',
             'to_float',
             'to_int',
             'to_str',
@@ -572,6 +580,7 @@ class TestMappet(object):
         assert self.m.sget('fake_node.subnode2').to_bool() is None
         assert self.m.sget('fake_node.subnode2').to_date() is None
         assert self.m.sget('fake_node.subnode2').to_datetime() is None
+        assert self.m.sget('fake_node.subnode2').to_decimal() is None
         assert self.m.sget('fake_node.subnode2').to_float() is None
         assert self.m.sget('fake_node.subnode2').to_int() is None
         assert self.m.sget('fake_node.subnode2').to_str() is None

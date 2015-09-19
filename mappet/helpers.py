@@ -6,6 +6,7 @@ u"""Helper functions.
    :synopsis: Helper functions.
 """
 from collections import defaultdict
+from decimal import Decimal
 from functools import partial, wraps
 import datetime
 
@@ -16,6 +17,7 @@ __all__ = [
     'to_bool',
     'to_date',
     'to_datetime',
+    'to_decimal',
     'to_float',
     'to_int',
     'to_str',
@@ -76,6 +78,10 @@ def to_int(value):
 
 def to_float(value):
     return float(value)
+
+
+def to_decimal(value):
+    return Decimal(value)
 
 
 @no_empty_value
