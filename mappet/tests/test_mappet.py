@@ -897,3 +897,6 @@ class TestMappet(object):
             regexp=True,
         )
         assert len(result) == 5
+
+    def test_keys(self):
+        assert self.m.keys() == {'node1', 'node2', 'node3', 'node_list'}

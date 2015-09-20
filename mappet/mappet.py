@@ -688,3 +688,7 @@ class Mappet(Node):
             regexp=regexp,
             smart_strings=smart_strings
         )
+
+    def keys(self):
+        """Returns a set of node's keys."""
+        return set(self._get_aliases().keys())
