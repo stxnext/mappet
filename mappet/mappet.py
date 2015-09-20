@@ -295,8 +295,7 @@ class Mappet(Node):
 
     def __dir__(self):
         u"""Returns a list of children and available helper methods."""
-        children = set(self._get_aliases().keys())
-        return sorted(children | {m for m in dir(self.__class__) if m.startswith('to_')})
+        return sorted(self.keys() | {m for m in dir(self.__class__) if m.startswith('to_')})
 
     def __deepcopy__(self, memodict):
         u"""Performs a deepcopy on the underlying XML tree."""
