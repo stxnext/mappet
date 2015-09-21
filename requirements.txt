@@ -1,6 +1,7 @@
 lxml
-python-dateutil
+mock
 pytest
 pytest-cov
-mock
+python-dateutil
 tox
+wheel==0.25
