@@ -12,6 +12,7 @@ import datetime
 
 from lxml import etree
 import dateutil.parser
+import six
 
 __all__ = [
     'to_bool',
@@ -150,7 +151,8 @@ CAST_DICT = {
     bool: from_bool,
     int: str,
     str: str,
-    unicode: str,
+    six.string_types: str,
+    six.text_type: str,
     float: str,
     datetime.time: from_time,
     datetime.datetime: from_datetime,

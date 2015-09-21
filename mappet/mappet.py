@@ -11,6 +11,7 @@ import re
 from copy import deepcopy
 
 from lxml import etree
+import six
 
 import helpers
 
@@ -110,7 +111,7 @@ class Node(object):
 
     @staticmethod
     def is_key_attr_or_text(key):
-        return isinstance(key, basestring) and key.startswith(('@', '#'))
+        return isinstance(key, six.string_types) and key.startswith(('@', '#'))
 
 
 class Literal(Node):
@@ -272,7 +273,7 @@ class Mappet(Node):
         """
         if etree.iselement(xml):
             self._xml = xml
-        elif isinstance(xml, basestring):
+        elif isinstance(xml, six.string_types):
             self._xml = etree.fromstring(xml)
         elif isinstance(xml, dict):
             if len(xml) == 1:
@@ -334,7 +335,7 @@ class Mappet(Node):
     def __getitem__(self, key):
         u"""Dictionary access."""
         # Checks if the call isn't to an attribute.
-        if isinstance(key, basestring) and not key.startswith('@'):
+        if isinstance(key, six.string_types) and not key.startswith('@'):
             children = self.children(key)
 
             if len(children) == 1:

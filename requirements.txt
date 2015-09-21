@@ -5,3 +5,4 @@ pytest-cov
 python-dateutil
 tox
 wheel==0.25
+six
