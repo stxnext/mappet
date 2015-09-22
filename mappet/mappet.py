@@ -230,7 +230,8 @@ class _NoneNode(object):
     def __repr__(self):
         return 'NONE_NODE'
 
-    def __nonzero__(self):
+    @staticmethod
+    def __nonzero__():
         return False
 
     def __dir__(self):
@@ -318,11 +319,11 @@ class Mappet(Node):
     def __setattr__(self, name, value):
         u"""Node attribute assignment.
 
-        Calls ``set`` in the end.
+        Calls ``_set`` in the end.
         """
         # Only elements that aren't a part of class definition are overwritten.
         if name not in dir(self.__class__):
-            return self.set(name, value)
+            return self._set(name, value)
 
         return super(Mappet, self).__setattr__(name, value)
 
@@ -521,9 +522,9 @@ class Mappet(Node):
         if tag in child_tags:
             raise KeyError('Node {} already exists in XML tree.'.format(tag))
 
-        self.set(tag, value)
+        self._set(tag, value)
 
-    def set(self, name, value):
+    def _set(self, name, value):
         u"""Assigns a new XML structure to the node.
 
         A literal value, dict or list can be passed in. Works for all nested levels.
