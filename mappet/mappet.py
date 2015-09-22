@@ -140,7 +140,7 @@ class Literal(Node):
 
     def __nonzero__(self):
         u"""Represents the literal as an bool."""
-        return True if self._xml.text else False
+        return bool(self._xml.text)
 
     def __eq__(self, other):
         u"""Compares two leafs.
